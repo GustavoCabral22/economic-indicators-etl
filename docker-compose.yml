@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: indicadores_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: indicadores
+    ports:
+      - "5433:5432"   # 5433 para não conflitar com o fuel-price-warehouse
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d indicadores"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  pgdata:
